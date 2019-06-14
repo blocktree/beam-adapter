@@ -18,6 +18,7 @@ package beam
 import (
 	"github.com/astaxie/beego/config"
 	"path/filepath"
+	"testing"
 )
 
 var (
@@ -41,6 +42,14 @@ func testNewWalletManager() *WalletManager {
 	}
 	wm.LoadAssetsConfig(c)
 	return wm
+}
+
+func TestWalletManager_BackupWalletData(t *testing.T) {
+	err := tw.BackupWalletData()
+	if err != nil {
+		t.Errorf("BackupWalletData failed unexpected error: %v\n", err)
+		return
+	}
 }
 
 

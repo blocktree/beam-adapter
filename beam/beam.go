@@ -74,6 +74,8 @@ func (wm *WalletManager) LoadAssetsConfig(c config.Configer) error {
 	wm.Config.summarythreshold = c.String("summarythreshold")
 	wm.Config.summaryperiod = c.String("summaryperiod")
 	wm.walletClient = NewWalletClient(wm.Config.walletapi, wm.Config.explorerapi, wm.Config.logdebug)
+	wm.Config.walletdatafile = c.String("walletdatafile")
+	wm.Config.walletdatabackupdir = c.String("walletdatabackupdir")
 
 	txsendingtimeout := c.String("txsendingtimeout")
 	if len(txsendingtimeout) == 0 {
@@ -100,6 +102,7 @@ func (wm *WalletManager) LoadAssetsConfig(c config.Configer) error {
 
 	//建立日志文件夹
 	file.MkdirAll(wm.Config.logdir)
+	file.MkdirAll(wm.Config.walletdatabackupdir)
 
 	logfile := ""
 	if wm.Config.enableserver {

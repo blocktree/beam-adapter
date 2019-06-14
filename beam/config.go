@@ -84,6 +84,10 @@ type WalletConfig struct {
 	logdir string
 	//交易单发送超时
 	txsendingtimeout time.Duration
+	//钱包wallet.db备份目录
+	walletdatabackupdir string
+	//钱包wallet.db绝对路径
+	walletdatafile string
 }
 
 func NewConfig(symbol string) *WalletConfig {

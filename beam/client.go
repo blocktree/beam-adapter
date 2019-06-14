@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	trustHostID = "beam-wallet-server"
+	trustHostID = "openw-beam-server"
 	nodeName    = "beam-client"
 )
 

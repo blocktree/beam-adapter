@@ -1,5 +1,5 @@
 .PHONY: all clean
-.PHONY: beam-wallet
+.PHONY: openw-beam
 .PHONY: deps
 
 # Check for required command tools to build or stop immediately
@@ -9,9 +9,9 @@ K := $(foreach exec,$(EXECUTABLES),\
 
 GO ?= latest
 
-# beam-wallet
+# openw-beam
 BEAMWALLETVERSION = $(shell git describe --tags `git rev-list --tags --max-count=1`)
-BEAMWALLETBINARY = beam-wallet
+BEAMWALLETBINARY = openw-beam
 BEAMWALLETMAIN = main.go
 
 BUILDDIR = build
@@ -33,11 +33,11 @@ build:
 	GO111MODULE=on go build -ldflags $(BEAMWALLETLDFLAGS) -i -o $(shell pwd)/$(BUILDDIR)/$(BEAMWALLETBINARY) $(shell pwd)/$(BEAMWALLETMAIN)
 	@echo "Build $(BEAMWALLETBINARY) done."
 
-all: beam-wallet
+all: openw-beam
 
 clean:
 	rm -rf $(shell pwd)/$(BUILDDIR)/
 
-beam-wallet:
+openw-beam:
 	xgo --dest=$(BUILDDIR) --ldflags=$(BEAMWALLETLDFLAGS) --out=$(BEAMWALLETBINARY)-$(BEAMWALLETVERSION)-$(GITREV) --targets=$(TARGETS) \
 	--pkg=$(BEAMWALLETMAIN) .

@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	Identifier   = "beam-wallet" // Client identifier to advertise over the network
+	Identifier   = "openw-beam" // Client identifier to advertise over the network
 )
 
 var (
@@ -65,7 +65,7 @@ func NewApp(gitCommit, usage string) *cli.App {
 func init() {
 	// Initialize the CLI app and start openw-cli
 	app.Name = Identifier
-	app.Action = beamwallet
+	app.Action = openwbeam
 	app.HideVersion = true // we have a command to print the version
 	app.Copyright = "Copyright 2019 The OpenWallet Authors"
 	app.Version = commands.Version
@@ -87,7 +87,7 @@ func main() {
 	}
 }
 
-//beamwallet
-func beamwallet(ctx *cli.Context) error {
+//openwbeam
+func openwbeam(ctx *cli.Context) error {
 	return nil
 }

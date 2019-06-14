@@ -3,6 +3,7 @@ package beam
 import (
 	"fmt"
 	"github.com/blocktree/openwallet/common"
+	"github.com/blocktree/openwallet/common/file"
 	"github.com/blocktree/openwallet/log"
 	"github.com/blocktree/openwallet/openwallet"
 	"github.com/blocktree/openwallet/owtp"
@@ -258,6 +259,14 @@ func (wm *WalletManager) summaryWalletProcess() error {
 
 		wm.Log.Infof("[Success] txid: %s", txid)
 
+		//完成一次汇总备份一次wallet.db
+		backErr := wm.BackupWalletData()
+		if backErr != nil {
+			wm.Log.Infof("Backup wallet data failed: %v", backErr)
+		} else {
+			wm.Log.Infof("Backup wallet data success")
+		}
+
 	}
 
 	return nil
@@ -294,4 +303,12 @@ func (wm *WalletManager) ClearExpireTx() error {
 		}
 	}
 	return nil
+}
+
+//BackupWalletData
+func (wm *WalletManager) BackupWalletData() error {
+
+	//备份钱包文件
+	return file.Copy(wm.Config.walletdatafile, wm.Config.walletdatabackupdir)
+
 }
