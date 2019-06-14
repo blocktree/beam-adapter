@@ -152,7 +152,7 @@ func (wm *WalletManager) GetTransactionsByHeight(height uint64) ([]*Transaction,
 func (wm *WalletManager) StartSummaryWallet() error {
 
 	var (
-		endRunning  = make(chan bool, 1)
+		endRunning = make(chan bool, 1)
 	)
 
 	cycleTime := wm.Config.summaryperiod
@@ -187,12 +187,10 @@ func (wm *WalletManager) StartSummaryWallet() error {
 	return nil
 }
 
-
 //SummaryWallets 执行汇总流程
 func (wm *WalletManager) SummaryWallets() {
 
 	wm.Log.Infof("[Summary Task Start]------%s", common.TimeFormat("2006-01-02 15:04:05"))
-
 
 	err := wm.summaryWalletProcess()
 	if err != nil {
@@ -200,8 +198,10 @@ func (wm *WalletManager) SummaryWallets() {
 	}
 
 	wm.Log.Infof("[Summary Task End]------%s", common.TimeFormat("2006-01-02 15:04:05"))
-}
 
+	//:清楚超时的交易
+	wm.ClearExpireTx()
+}
 
 func (wm *WalletManager) summaryWalletProcess() error {
 
@@ -260,5 +260,38 @@ func (wm *WalletManager) summaryWalletProcess() error {
 
 	}
 
+	return nil
+}
+
+//ClearExpireTx
+func (wm *WalletManager) ClearExpireTx() error {
+
+	txs, err := wm.walletClient.GetTransactionsByStatus(TxStatusInProgress)
+	if err != nil {
+		return err
+	}
+
+	currentServerTime := time.Now()
+
+	for _, tx := range txs {
+		//计算交易发送过期时间
+		txCreateTimestamp := time.Unix(tx.CreateTime, 0)
+		expiredTime := txCreateTimestamp.Add(wm.Config.txsendingtimeout)
+
+		//log.Infof("txCreateTimestamp = %s", txCreateTimestamp.String())
+		//log.Infof("currentServerTime = %s", currentServerTime.String())
+		//log.Infof("expiredTime = %s", expiredTime.String())
+
+		if currentServerTime.Unix() > expiredTime.Unix() {
+
+			log.Infof("In Progress Tx: %s is expired", tx.TxID)
+
+			flag, cancelErr := wm.walletClient.CancelTx(tx.TxID)
+			if cancelErr != nil {
+				return cancelErr
+			}
+			log.Infof("Cancel Tx: %s = %v", tx.TxID, flag)
+		}
+	}
 	return nil
 }

@@ -6,6 +6,7 @@ import (
 	"github.com/blocktree/openwallet/log"
 	"github.com/blocktree/openwallet/openwallet"
 	"github.com/blocktree/openwallet/owtp"
+	"time"
 )
 
 //CurveType 曲线类型
@@ -73,6 +74,16 @@ func (wm *WalletManager) LoadAssetsConfig(c config.Configer) error {
 	wm.Config.summarythreshold = c.String("summarythreshold")
 	wm.Config.summaryperiod = c.String("summaryperiod")
 	wm.walletClient = NewWalletClient(wm.Config.walletapi, wm.Config.explorerapi, wm.Config.logdebug)
+
+	txsendingtimeout := c.String("txsendingtimeout")
+	if len(txsendingtimeout) == 0 {
+		wm.Config.txsendingtimeout = DefaultTxSendingTimeout
+	} else {
+		wm.Config.txsendingtimeout, err = time.ParseDuration(txsendingtimeout)
+		if err != nil {
+			return err
+		}
+	}
 
 	if wm.Config.enableserver {
 		wm.server, err = NewServer(wm)

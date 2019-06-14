@@ -5,6 +5,7 @@ import (
 	"github.com/blocktree/openwallet/common/file"
 	"path/filepath"
 	"strings"
+	"time"
 )
 
 const (
@@ -12,58 +13,25 @@ const (
 	Symbol    = "BEAM"
 	CurveType = owcrypt.ECC_CURVE_SECP256K1
 
-	//默认配置内容
-	defaultConfig = `
+	//交易单发送超时时限
+	DefaultTxSendingTimeout =  5 * time.Minute
+)
 
-# Beam Wallet RPC API
-walletapi = "http://47.91.224.127:20021/api/wallet"
+const (
+	//交易单状态
+	//Pending (0)     - initial state, a transaction is created, but not sent nowhere
+	//InProgress (1)  - "Waiting for Sender/Waiting for Receiver" - to indicate that sender or receiver should come online to initiate the transaction
+	//Canceled (2)    - "Cancelled" (by Sender, due to Rollback)
+	//Completed (3)   - a transaction is completed
+	//Failed (4)      - failed for some reason
+	//Registering (5) - a transaction is taken care by the blockchain, some miner needs to PoW and to add it to a block, the block should be added to the blockchain
 
-# Beam explore API
-explorerapi = "http://47.91.224.127:20022"
-
-# beam-adapter Remote Server
-remoteserver = "127.0.0.1"
-
-# True: Run for server, False: Run for client
-enableserver = false
-
-# Fix Transaction Fess
-fixfees = "0.1"
-
-# Node Connect Type
-connecttype = "websocket"
-
-# Enable key agreement on local node communicate with client server
-enablekeyagreement = false
-
-# Enable https or wss
-enablessl = false
-
-# Network request timeout, unit: second
-requesttimeout = 120
-
-# Generate Node
-cert = ""
-
-# trust node id
-trustnodeid = ""
-
-# summary address 汇总地址
-summaryaddress = ""
-
-# summary threshold 汇总阈值
-summarythreshold = ""
-
-# Wallet Summary Period,  汇总周期
-summaryperiod = "30s"
-
-# Log file path
-logdir = "./logs/"
-
-# log debug info
-logdebug = false
-
-`
+	TxStatusPending     = 0
+	TxStatusInProgress  = 1
+	TxStatusCanceled    = 2
+	TxStatusCompleted   = 3
+	TxStatusFailed      = 4
+	TxStatusRegistering = 5
 )
 
 type WalletConfig struct {
@@ -114,6 +82,8 @@ type WalletConfig struct {
 	summaryperiod string
 	//日志路径
 	logdir string
+	//交易单发送超时
+	txsendingtimeout time.Duration
 }
 
 func NewConfig(symbol string) *WalletConfig {

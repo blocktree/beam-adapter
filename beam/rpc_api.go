@@ -407,6 +407,31 @@ func (c *WalletClient) GetTransactionsByHeight(height uint64) ([]*Transaction, e
 	return txs, nil
 }
 
+//GetTransactionsByStatus
+func (c *WalletClient) GetTransactionsByStatus(status int) ([]*Transaction, error) {
+	request := map[string]interface{}{
+		"filter": map[string]interface{}{
+			"status": status,
+		},
+	}
+
+	r, err := c.call("tx_list", request)
+	if err != nil {
+		return nil, err
+	}
+
+	txs := make([]*Transaction, 0)
+	if r.IsArray() {
+		for _, obj := range r.Array() {
+			tx := NewTransaction(&obj)
+			txs = append(txs, tx)
+
+		}
+	}
+
+	return txs, nil
+}
+
 //GetWalletStatus
 func (c *WalletClient) GetWalletStatus() (*WalletStatus, error) {
 
@@ -415,4 +440,18 @@ func (c *WalletClient) GetWalletStatus() (*WalletStatus, error) {
 		return nil, err
 	}
 	return NewWalletStatus(r), nil
+}
+
+//CancelTx 取消交易
+func (c *WalletClient) CancelTx(txid string) (bool, error) {
+	request := map[string]interface{}{
+		"txId": txid,
+	}
+
+	r, err := c.call("tx_cancel", request)
+	if err != nil {
+		return false, err
+	}
+
+	return r.Bool(), nil
 }

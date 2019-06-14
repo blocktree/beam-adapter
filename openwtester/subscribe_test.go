@@ -16,6 +16,7 @@
 package openwtester
 
 import (
+	"github.com/blocktree/beam-adapter/beam"
 	"github.com/blocktree/openwallet/log"
 	"github.com/blocktree/openwallet/openwallet"
 	"testing"
@@ -24,6 +25,7 @@ import (
 ////////////////////////// 测试单个扫描器 //////////////////////////
 
 type subscriberSingle struct {
+	wm *beam.WalletManager
 }
 
 //BlockScanNotify 新区块扫描完成通知
@@ -87,7 +89,7 @@ func TestSubscribeAddress(t *testing.T) {
 
 	//log.Debug("already got scanner:", assetsMgr)
 	scanner := clientNode.GetBlockScanner()
-	scanner.SetRescanBlockHeight(229026)
+	//scanner.SetRescanBlockHeight(229026)
 
 	if scanner == nil {
 		log.Error(symbol, "is not support block scan")
@@ -96,7 +98,7 @@ func TestSubscribeAddress(t *testing.T) {
 
 	scanner.SetBlockScanTargetFunc(scanTargetFunc)
 
-	sub := subscriberSingle{}
+	sub := subscriberSingle{wm: clientNode}
 	scanner.AddObserver(&sub)
 
 	scanner.Run()

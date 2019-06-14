@@ -198,6 +198,9 @@ func (bs *BEAMBlockScanner) GetTransaction(hash string) (*Transaction, error) {
 //ScanBlockTask 扫描任务
 func (bs *BEAMBlockScanner) ScanBlockTask() {
 
+	//:清除超时的交易单
+	bs.wm.ClearExpireTx()
+
 	//获取本地区块高度
 	blockHeader, err := bs.GetScannedBlockHeader()
 	if err != nil {

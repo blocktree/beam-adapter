@@ -121,3 +121,27 @@ func TestWalletClient_SendTransaction(t *testing.T) {
 
 	log.Infof("txid: %s", txid)
 }
+
+func TestWalletClient_GetTransactionsByStatus(t *testing.T) {
+	txs, err := tw.walletClient.GetTransactionsByStatus(TxStatusInProgress)
+	if err != nil {
+		t.Errorf("GetTransactionsByStatus failed unexpected error: %v\n", err)
+		return
+	}
+
+	for i, tx := range txs {
+		log.Infof("%d: %+v", i, tx)
+	}
+
+}
+
+func TestWalletClient_CancelTx(t *testing.T) {
+	flag, err := tw.walletClient.CancelTx("46bf4426eb8142f58898ba9ccf9b351b")
+	if err != nil {
+		t.Errorf("CancelTx failed unexpected error: %v\n", err)
+		return
+	}
+
+	log.Infof("flag: %v", flag)
+
+}

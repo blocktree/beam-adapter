@@ -105,6 +105,10 @@ summarythreshold = "0.001"
 # Wallet Summary Period,  汇总周期
 summaryperiod = "30s"
 
+# Transaction sending timeout, 如果接受方钱包不在线，交易会一直处于发送中状态，需要设置一个超时时间，超时取消发送中的交易
+# Such as "30s", "1.5h" or "2h45m". Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h".
+txsendingtimeout = "5m"
+
 ```
 
 在用户托管钱包的服务器运行beam-walle
@@ -158,10 +162,13 @@ logdir = "./logs/"
 # Generate Node, 客户端证书私钥
 cert = "1111"
 
+# Transaction sending timeout, 如果接受方钱包不在线，交易会一直处于发送中状态，需要设置一个超时时间，超时取消发送中的交易
+# Such as "30s", "1.5h" or "2h45m". Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h".
+txsendingtimeout = "5m"
 
 ```
 
-系统集成beam包功能
+系统集成beam-adapter/beam包功能
 
 ```go
 
@@ -190,10 +197,10 @@ cert = "1111"
     }
 
     txdecoder := clientNode.TxDecoder
-    txdecoder.CreateRawTransaction(nil, rawTx)          //创建交易单
-    txdecoder.SignRawTransaction(nil, rawTx)            //签名交易单（）
-    txdecoder.VerifyRawTransaction(nil, rawTx)
     tx, err := txdecoder.SubmitRawTransaction(nil, rawTx)
-
+    
+    //启动区块链扫描器
+    scanner := clientNode.GetBlockScanner()
+	scanner.Run()
 	
 ```
