@@ -2,3 +2,4 @@ beam/conf
 beam/logs
 openwtester/logs
 build
+go.sum
