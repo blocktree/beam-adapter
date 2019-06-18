@@ -4,3 +4,4 @@ openwtester/logs
 build
 go.sum
 openwtester/backup
+beam/backup

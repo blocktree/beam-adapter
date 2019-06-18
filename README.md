@@ -200,6 +200,12 @@ txsendingtimeout = "5m"
         return
 	}
 	
+	//获取本地钱包（热钱包）余额
+	balanceLocal, err := clientNode.GetLocalWalletBalance()
+
+    //获取用户充值钱包余额
+    balanceRemote, err := clientNode.GetRemoteWalletBalance()
+    	
 	//发起转账交易
     rawTx := &openwallet.RawTransaction{
         To: map[string]string{
@@ -219,5 +225,13 @@ txsendingtimeout = "5m"
 
 ### 注意事项
 
+`钱包数据备份`
+
 由于beam无法适配openwallet钱包体系，所以地址私钥等都托管在beam钱包上。
-钱包管理员在安装beam钱包后，需要备份好助记词和密码，定时备份wallet.db
+钱包管理员在安装beam钱包后，需要备份好助记词和密码，定时备份wallet.db。
+
+`绑定信任节点进行通信`
+
+为了满足用户充值钱包与提现热钱包的安全通信。OWTP可绑定固定的节点进行通信。
+客户端配置文件中的`cert`字段，可通过`openw-cli`的`genkeychain`命令生成通信私钥，
+把`PRIVATE KEY`填到`cert`字段。把`NODE ID`填到服务端配置文件的`trustnodeid`字段。
