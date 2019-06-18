@@ -75,7 +75,7 @@ func TestWalletClient_GetTransaction(t *testing.T) {
 }
 
 func TestWalletClient_GetTransactionsByHeight(t *testing.T) {
-	txs, err := tw.walletClient.GetTransactionsByHeight(221412)
+	txs, err := tw.walletClient.GetTransactionsByHeight(237304)
 	if err != nil {
 		t.Errorf("GetTransactionsByHeight failed unexpected error: %v\n", err)
 		return

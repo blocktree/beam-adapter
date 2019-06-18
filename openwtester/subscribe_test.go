@@ -55,10 +55,10 @@ func TestSubscribeAddress(t *testing.T) {
 
 	var (
 		endRunning = make(chan bool, 1)
-		symbol     = "PESS"
+		symbol     = "BEAM"
 		addrs      = map[string]string{
-			"34c0ba165f7ec2cc34c0fe80c9dd7d0fdf57ea192f1c55b6d69232fd62b87dc7508": "sender",
-			"27c900673e7bf74ba7cddf28d00678c00224d212cde29c90f5ec04d12b50e12089f": "receiver",
+			"1b585f1d77f9b4e01bad9b7cfccb6f4297c341848ea0d13b64c4b7f61ec414aa57": "sender",
+			"8ba9e491b6b941148bd03472bb5dca562f065865793445968a5b98dc8523d8847b": "receiver",
 		}
 	)
 
@@ -89,7 +89,7 @@ func TestSubscribeAddress(t *testing.T) {
 
 	//log.Debug("already got scanner:", assetsMgr)
 	scanner := clientNode.GetBlockScanner()
-	//scanner.SetRescanBlockHeight(229026)
+	scanner.SetRescanBlockHeight(237304)
 
 	if scanner == nil {
 		log.Error(symbol, "is not support block scan")
