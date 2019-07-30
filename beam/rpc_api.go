@@ -150,7 +150,7 @@ func (c *WalletClient) isError(r *req.Resp) error {
 func (c *WalletClient) CreateAddress() (string, error) {
 
 	request := map[string]interface{}{
-		"lifetime": 0,
+		"expiration": "never",
 	}
 
 	r, err := c.call("create_address", request)

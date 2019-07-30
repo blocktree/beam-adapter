@@ -19,7 +19,7 @@ func TestCreateLocalAddress(t *testing.T) {
 }
 
 func TestCreateRemoteAddress(t *testing.T) {
-	addrs, err := clientNode.CreateRemoteWalletAddress(100, 10)
+	addrs, err := clientNode.CreateRemoteWalletAddress(10, 10)
 	if err != nil {
 		t.Errorf("CreateRemoteWalletAddress failed unexpected error: %v\n", err)
 		return
@@ -79,7 +79,7 @@ func TestSendTransaction(t *testing.T) {
 			Symbol:"BEAM",
 		},
 		To: map[string]string{
-			"3b769e29f6e2fc59fb7d1cd88fa03bd0777318b83d0e5111941992ad5efbe670d31": "0.0000001",
+			"25ab70f47a42061565a5a6a491426c087bd43ed8062e874ce540d8abde3e4d5e458": "0.0000001",
 		},
 		FeeRate: "",
 	}

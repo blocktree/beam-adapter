@@ -1,7 +1,7 @@
-beam/conf
-beam/logs
-openwtester/logs
+*.ini
+*.key
 build
 go.sum
-openwtester/backup
-beam/backup
+*.db
+.idea
+*.log

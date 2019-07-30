@@ -85,7 +85,7 @@ remoteserver = ":20888"
 enableserver = true
 
 # Fix Transaction Fess, 最低手续费
-fixfees = "0.00000001"
+fixfees = "0.000001"
 
 # Node Connect Type, 连接方式：ws: websocket
 connecttype = "ws"
@@ -150,7 +150,7 @@ remoteserver = "127.0.0.1:20888"
 enableserver = false
 
 # Fix Transaction Fess, 最低手续费
-fixfees = "0.00000001"
+fixfees = "0.000001"
 
 # Node Connect Type, 连接方式：ws: websocket
 connecttype = "ws"

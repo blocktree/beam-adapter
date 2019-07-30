@@ -58,7 +58,7 @@ func TestSubscribeAddress(t *testing.T) {
 		symbol     = "BEAM"
 		addrs      = map[string]string{
 			"1b585f1d77f9b4e01bad9b7cfccb6f4297c341848ea0d13b64c4b7f61ec414aa57": "sender",
-			"8ba9e491b6b941148bd03472bb5dca562f065865793445968a5b98dc8523d8847b": "receiver",
+			"360c3d573ef2dfa0760ddb30956e01ac7de7ff140f08b8f80afc7604df9810821b7": "receiver",
 		}
 	)
 
