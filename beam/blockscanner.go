@@ -248,6 +248,22 @@ func (bs *BEAMBlockScanner) ScanBlockTask() {
 			continue
 		}
 
+		remoteBlock, err := bs.wm.GetRemoteBlockByHeight(currentHeight)
+		if err != nil {
+			bs.wm.Log.Std.Error("remote server is disconnected")
+			break
+		}
+
+		if remoteBlock.Found == false {
+			bs.wm.Log.Std.Error("remote server block is not synced to the same height of mainnet")
+			break
+		}
+
+		if remoteBlock.Hash != block.Hash {
+			bs.wm.Log.Std.Error("remote server block is not synced to the same hash of mainnet")
+			break
+		}
+
 		isFork := false
 
 		//判断hash是否上一区块的hash

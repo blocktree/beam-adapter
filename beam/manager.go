@@ -150,6 +150,14 @@ func (wm *WalletManager) GetTransactionsByHeight(height uint64) ([]*Transaction,
 	return trxs, nil
 }
 
+func (wm WalletManager) GetRemoteBlockByHeight(height uint64) (*Block, error) {
+	if wm.Config.enableserver {
+		return nil, fmt.Errorf("server mode can not create remote address, use create local address")
+	}
+
+	return wm.client.GetBlockByHeight(height)
+}
+
 func (wm *WalletManager) StartSummaryWallet() error {
 
 	var (

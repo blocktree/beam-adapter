@@ -296,3 +296,34 @@ func (c *Client) GetWalletAddress() ([]string, error) {
 
 	return addrs, retErr
 }
+
+//GetBlockByHeight
+func (c *Client) GetBlockByHeight(height uint64) (*Block, error) {
+
+	var (
+		block  *Block
+		retErr error
+	)
+
+	if !c.node.IsConnectPeer(trustHostID) {
+		return nil, fmt.Errorf("client had disconnected: %s", trustHostID)
+	}
+
+	params := map[string]interface{}{
+		"height": height,
+	}
+
+	err := c.node.Call(trustHostID, "getBlockByHeight", params,
+		true, func(resp owtp.Response) {
+			if resp.Status == owtp.StatusSuccess {
+				retErr = json.Unmarshal([]byte(resp.JsonData().Raw), &block)
+			} else {
+				retErr = openwallet.Errorf(resp.Status, resp.Msg)
+			}
+		})
+	if err != nil {
+		return nil, err
+	}
+
+	return block, retErr
+}

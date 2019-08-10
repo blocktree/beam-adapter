@@ -41,6 +41,7 @@ func NewServer(wm *WalletManager) (*Server, error) {
 	node.HandleFunc("createBatchAddress", t.createBatchAddress)
 	node.HandleFunc("getWalletBalance", t.getWalletBalance)
 	node.HandleFunc("getWalletAddress", t.getWalletAddress)
+	node.HandleFunc("getBlockByHeight", t.getBlockByHeight)
 
 	node.SetCloseHandler(func(n *owtp.OWTPNode, peer owtp.PeerInfo) {
 		if t.disconnectHandler != nil {
@@ -216,4 +217,26 @@ func (server *Server) getWalletAddress(ctx *owtp.Context) {
 	ctx.Response(addrs, owtp.StatusSuccess, "success")
 
 	server.wm.Log.Infof("---------------------------------------")
+}
+
+
+func (server *Server) getBlockByHeight(ctx *owtp.Context) {
+
+	//server.wm.Log.Infof("Client call [getTransactionsByHeight]")
+
+	if !server.checkTrustNode(ctx.PID) {
+		ctx.Response(nil, owtp.ErrDenialOfService, "the node is not trusted")
+		return
+	}
+
+	height := ctx.Params().Get("height").Uint()
+	block, err := server.wm.walletClient.GetBlockByHeight(height)
+	if err != nil {
+		ctx.Response(nil, owtp.ErrCustomError, err.Error())
+		return
+	}
+
+	ctx.Response(block, owtp.StatusSuccess, "success")
+
+	//server.wm.Log.Infof("---------------------------------------")
 }
