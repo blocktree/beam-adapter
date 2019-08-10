@@ -1,6 +1,7 @@
 package openwtester
 
 import (
+	"fmt"
 	"github.com/blocktree/openwallet/log"
 	"github.com/blocktree/openwallet/openwallet"
 	"testing"
@@ -67,9 +68,19 @@ func TestGetRemoteWalletAddress(t *testing.T) {
 		return
 	}
 
-	for i, a := range addrs {
-		log.Infof("%d: %s", i, a)
+	for _, a := range addrs {
+		fmt.Printf("%s\n", a)
 	}
+}
+
+func TestGetRemoteBlockByHeight(t *testing.T) {
+	block, err := clientNode.GetRemoteBlockByHeight(313212)
+	if err != nil {
+		t.Errorf("CreateRemoteWalletAddress failed unexpected error: %v\n", err)
+		return
+	}
+
+	log.Infof("%+v", block)
 }
 
 func TestSendTransaction(t *testing.T) {

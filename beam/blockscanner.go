@@ -255,12 +255,12 @@ func (bs *BEAMBlockScanner) ScanBlockTask() {
 		}
 
 		if remoteBlock.Found == false {
-			bs.wm.Log.Std.Error("remote server block is not synced to the same height of mainnet")
+			bs.wm.Log.Std.Warn("remote server block is not synced to the same height of mainnet")
 			break
 		}
 
 		if remoteBlock.Hash != block.Hash {
-			bs.wm.Log.Std.Error("remote server block is not synced to the same hash of mainnet")
+			bs.wm.Log.Std.Warn("remote server block is not synced to the same hash of mainnet")
 			break
 		}
 
