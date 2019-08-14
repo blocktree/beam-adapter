@@ -678,6 +678,8 @@ func (bs *BEAMBlockScanner) InitExtractResult(tx *Transaction, sourceKey string,
 		Reason:      reason,
 	}
 
+	transx.SetExtParam("kernel", tx.Kernel)
+
 	wxID := openwallet.GenTransactionWxID(transx)
 	transx.WxID = wxID
 
