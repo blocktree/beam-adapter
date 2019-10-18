@@ -70,7 +70,7 @@ func (c *Client) connectRemoteNode() error {
 	connectCfg.EnableSignature = false
 
 	//建立连接
-	err := c.node.Connect(trustHostID, connectCfg)
+	_, err := c.node.Connect(trustHostID, connectCfg)
 	if err != nil {
 		return err
 	}
