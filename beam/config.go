@@ -88,6 +88,8 @@ type WalletConfig struct {
 	walletdatabackupdir string
 	//钱包wallet.db绝对路径
 	walletdatafile string
+	//单节点
+	enablesingle bool
 }
 
 func NewConfig(symbol string) *WalletConfig {

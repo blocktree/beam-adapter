@@ -76,6 +76,7 @@ func (wm *WalletManager) LoadAssetsConfig(c config.Configer) error {
 	wm.walletClient = NewWalletClient(wm.Config.walletapi, wm.Config.explorerapi, wm.Config.logdebug)
 	wm.Config.walletdatafile = c.String("walletdatafile")
 	wm.Config.walletdatabackupdir = c.String("walletdatabackupdir")
+	wm.Config.enablesingle, _ = c.Bool("enablesingle")
 
 	txsendingtimeout := c.String("txsendingtimeout")
 	if len(txsendingtimeout) == 0 {
@@ -94,9 +95,11 @@ func (wm *WalletManager) LoadAssetsConfig(c config.Configer) error {
 		}
 		wm.server.Listen()
 	} else {
-		wm.client, err = NewClient(wm)
-		if err != nil {
-			return err
+		if !wm.Config.enablesingle {
+			wm.client, err = NewClient(wm)
+			if err != nil {
+				return err
+			}
 		}
 	}
 

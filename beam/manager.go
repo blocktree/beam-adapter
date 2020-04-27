@@ -43,12 +43,20 @@ func (wm WalletManager) CreateRemoteWalletAddress(count, workerSize uint64) ([]s
 		return nil, fmt.Errorf("server mode can not create remote address, use create local address")
 	}
 
+	if wm.Config.enablesingle {
+		return wm.CreateLocalWalletAddress(count, workerSize)
+	}
+
 	return wm.client.CreateBatchAddress(count, workerSize)
 }
 
 func (wm WalletManager) GetRemoteWalletAddress() ([]string, error) {
 	if wm.Config.enableserver {
 		return nil, fmt.Errorf("server mode can not create remote address, use create local address")
+	}
+
+	if wm.Config.enablesingle {
+		return wm.GetLocalWalletAddress()
 	}
 
 	return wm.client.GetWalletAddress()
@@ -58,6 +66,10 @@ func (wm WalletManager) GetRemoteWalletBalance() (*openwallet.Balance, error) {
 
 	if wm.Config.enableserver {
 		return nil, fmt.Errorf("server mode can not get remote wallet balance, use get wallet balance")
+	}
+
+	if wm.Config.enablesingle {
+		return wm.GetLocalWalletBalance()
 	}
 
 	b, err := wm.client.GetWalletBalance()
@@ -100,7 +112,7 @@ func (wm *WalletManager) GetTransaction(txid string) (*Transaction, error) {
 		return localTx, nil
 	}
 
-	if wm.client != nil {
+	if wm.client != nil && !wm.Config.enablesingle {
 		remoteTx, err := wm.client.GetTransaction(txid)
 		if err != nil {
 			wm.Log.Errorf("Remote GetTransactionsByHeight failed, unexpected error %v", err)
@@ -130,7 +142,7 @@ func (wm *WalletManager) GetTransactionsByHeight(height uint64) ([]*Transaction,
 		trxMap[tx.TxID] = tx
 	}
 
-	if wm.client != nil {
+	if wm.client != nil && !wm.Config.enablesingle {
 		remoteTrxs, err := wm.client.GetTransactionsByHeight(height)
 		if err != nil {
 			wm.Log.Errorf("Remote GetTransactionsByHeight failed, unexpected error %v", err)
@@ -153,6 +165,10 @@ func (wm *WalletManager) GetTransactionsByHeight(height uint64) ([]*Transaction,
 func (wm WalletManager) GetRemoteBlockByHeight(height uint64) (*Block, error) {
 	if wm.Config.enableserver {
 		return nil, fmt.Errorf("server mode can not create remote address, use create local address")
+	}
+
+	if wm.Config.enablesingle {
+		return wm.walletClient.GetBlockByHeight(height)
 	}
 
 	return wm.client.GetBlockByHeight(height)
