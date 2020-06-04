@@ -383,7 +383,7 @@ func (c *WalletClient) GetTransaction(txid string) (*Transaction, error) {
 func (c *WalletClient) GetTransactionsByHeight(height uint64) ([]*Transaction, error) {
 	request := map[string]interface{}{
 		"filter": map[string]interface{}{
-			//"status": 4,
+			"status": 3,
 			"height": height,
 		},
 		//"skip":  0,

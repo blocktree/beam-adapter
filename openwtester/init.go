@@ -14,7 +14,7 @@ var (
 
 func init() {
 
-	//serverNode = testNewWalletManager("server.ini")
+	serverNode = testNewWalletManager("server.ini")
 	clientNode = testNewWalletManager("client.ini")
 	time.Sleep(1 * time.Second)
 }

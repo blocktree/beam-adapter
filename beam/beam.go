@@ -100,6 +100,7 @@ func (wm *WalletManager) LoadAssetsConfig(c config.Configer) error {
 			if err != nil {
 				return err
 			}
+			wm.Log.Infof("NodeID: %s", wm.client.node.NodeID())
 		}
 	}
 

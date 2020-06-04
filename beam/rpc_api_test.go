@@ -66,7 +66,9 @@ func TestWalletClient_GetBlockByKernel(t *testing.T) {
 }
 
 func TestWalletClient_GetTransaction(t *testing.T) {
-	tx, err := tw.walletClient.GetTransaction("72f8f349f9244b11b0e6471250ca68a1")
+	//d2ebe998cdce4506a9901ea0e060f811
+	//c6248e52ab2a409887572d59b741d9a7
+	tx, err := tw.walletClient.GetTransaction("c6248e52ab2a409887572d59b741d9a7")
 	if err != nil {
 		t.Errorf("GetTransaction failed unexpected error: %v\n", err)
 	} else {
@@ -75,7 +77,7 @@ func TestWalletClient_GetTransaction(t *testing.T) {
 }
 
 func TestWalletClient_GetTransactionsByHeight(t *testing.T) {
-	txs, err := tw.walletClient.GetTransactionsByHeight(237304)
+	txs, err := tw.walletClient.GetTransactionsByHeight(741737)
 	if err != nil {
 		t.Errorf("GetTransactionsByHeight failed unexpected error: %v\n", err)
 		return

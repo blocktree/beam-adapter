@@ -90,7 +90,7 @@ func TestSendTransaction(t *testing.T) {
 			Symbol:"BEAM",
 		},
 		To: map[string]string{
-			"25ab70f47a42061565a5a6a491426c087bd43ed8062e874ce540d8abde3e4d5e458": "0.0000001",
+			"3c4848707c2ce5e83c48915ecbccd8e96aa660bae4992b7f7ef7373c266d83aee46": "0.0000005",
 		},
 		FeeRate: "",
 	}

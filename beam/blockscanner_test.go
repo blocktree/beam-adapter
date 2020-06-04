@@ -57,7 +57,7 @@ func TestBEAMBlockScanner_GetBlockByHash(t *testing.T) {
 
 func TestBEAMBlockScanner_GetTransaction(t *testing.T) {
 	wm := testNewWalletManager()
-	tx, err := wm.Blockscanner.GetTransaction("de2f7fef9d9948809c88117b385a7c30")
+	tx, err := wm.Blockscanner.GetTransaction("158db7dfd86f4b6390faf4815c4936b4")
 	if err != nil {
 		t.Errorf("unexpected error: %v", err)
 		return
